@@ -1,7 +1,8 @@
 import "./App.css";
 import SearchIcon from "./search.svg";
 import MovieCart from "./MovieCart";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 //8878f2a0
 
 const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=8878f2a0";
@@ -16,6 +17,18 @@ function App() {
     setMovies(data.Search);
   };
 
+  const performSearch = () => {
+    searchMovies(searchTerm);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      performSearch();
+    }
+  };
+
+
+
   return (
     <div className="app">
       <h1>MovieLand</h1>
@@ -26,12 +39,9 @@ function App() {
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}
+          onKeyDown={handleKeyDown}
         />
-        <img
-          src={SearchIcon}
-          alt="search"
-          onClick={() => searchMovies(searchTerm)}
-        />
+        <img src={SearchIcon} alt="search" onClick={performSearch} />
       </div>
 
       {movies?.length > 0 ? (
